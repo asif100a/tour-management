@@ -1,8 +1,8 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import httpStatusCode from 'http-status-codes'
 import { UserServices } from "./user.service.js";
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await UserServices.createUser(req.body);
 
@@ -14,9 +14,7 @@ const createUser = async (req: Request, res: Response) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.log('❌ Something went wrong!: ', error);
-        res.status(httpStatusCode.StatusCodes.BAD_REQUEST).json({
-            message: `Something went wrong! ${error?.message}`
-        })
+        next(error)
     }
 }
 

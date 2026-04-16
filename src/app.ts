@@ -1,6 +1,8 @@
-import express, { type Request, type Response } from 'express'
+import express, { type NextFunction, type Request, type Response } from 'express'
 import cors from 'cors'
 import { router } from './app/routes/index.js'
+import { envConfig } from './app/config/env.js'
+import { globalErrorHandler } from './app/middlewares/globalErrorHandler.js'
 
 const app = express()
 
@@ -14,5 +16,7 @@ app.get('/', (req: Request, res: Response) => {
         message: "Welcome to the basic tour app"
     })
 })
+
+app.use(globalErrorHandler)
 
 export default app;
