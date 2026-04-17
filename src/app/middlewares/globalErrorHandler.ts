@@ -1,15 +1,28 @@
-import type { NextFunction, Request, Response } from "express"
+import type { ErrorRequestHandler } from "express"
 import { envConfig } from "../config/env.js"
+import AppError from "../errorHandlers/AppError.js";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-export const globalErrorHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
-    const status = 500
-    const message = error.message;
+export const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
+    void req
+    void next
 
-    res.status(status).json({
+    let statusCode = 500
+    let message = 'Something went wrong'
+
+    if (error instanceof AppError) {
+        statusCode = error.statusCode
+        message = error.message
+    } else if (error instanceof Error) {
+        message = error.message
+    }
+
+    res.status(statusCode).json({
         success: false,
         message,
-        error,
-        stack: envConfig.NODE_ENV === 'development' ? error?.stack : null
+        error: {
+            name: error instanceof Error ? error.name : 'UnknownError',
+            statusCode
+        },
+        stack: envConfig.NODE_ENV === 'development' && error instanceof Error ? error.stack : undefined
     })
 }

@@ -1,19 +1,27 @@
 import type { NextFunction, Request, Response } from "express";
 import httpStatusCode from 'http-status-codes'
 import { UserServices } from "./user.service.js";
+import AppError from "../../errorHandlers/AppError.js";
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const { name, email } = req.body
+
+        if (!name || !email) {
+            throw new AppError(
+                httpStatusCode.StatusCodes.BAD_REQUEST,
+                'Name and email are required'
+            )
+        }
+
         const user = await UserServices.createUser(req.body);
 
         res.status(httpStatusCode.StatusCodes.CREATED).json({
+            success: true,
             message: 'User created successfully',
             user
         })
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-        console.log('❌ Something went wrong!: ', error);
+    } catch (error) {
         next(error)
     }
 }
