@@ -9,6 +9,20 @@ const createUser = async (payload: Pick<IUser, 'name' | 'email'>) => {
     return user;
 }
 
+const getAllUser = async() => {
+    const users = await User.find({})
+
+    const totalUsers = await User.countDocuments()
+
+    return {
+        data: users,
+        meta: {
+            total: totalUsers
+        }
+    };
+}
+
 export const UserServices = {
-    createUser
+    createUser,
+    getAllUser
 }
