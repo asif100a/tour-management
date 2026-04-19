@@ -22,7 +22,7 @@ const getAllUser = catchAsync(async (req: Request, res: Response, next: NextFunc
     sendResponse(res, {
         success: true,
         statusCode: httpStatusCode.StatusCodes.OK,
-        message: 'User created successfully',
+        message: 'Users retrieved successfully',
         data: result.data,
         meta: result.meta
     })
