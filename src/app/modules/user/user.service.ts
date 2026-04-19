@@ -1,10 +1,8 @@
 import type { IUser } from "./user.interface.js";
 import { User } from "./user.model.js";
 
-const createUser = async (payload: Pick<IUser, 'name' | 'email'>) => {
-    const { name, email } = payload;
-
-    const user = await User.create({ name, email })
+const createUser = async (payload: Pick<IUser, 'name' | 'email' | 'password' | 'phone' | 'address'>) => {
+    const user = await User.create(payload)
 
     return user;
 }
