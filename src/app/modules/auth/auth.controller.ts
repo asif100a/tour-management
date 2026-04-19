@@ -4,6 +4,7 @@ import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatusCode from 'http-status-codes'
 import { AuthServices } from "./auth.service.js";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const credentialLogin = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
     const loginInfo = await AuthServices.credentialLogin(req.body)
 

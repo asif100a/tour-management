@@ -3,7 +3,8 @@ import AppError from "../../errorHandlers/AppError.js";
 import type { IUser } from "../user/user.interface.js";
 import { User } from "../user/user.model.js";
 import httpStatusCode from 'http-status-codes'
-import jwt from 'jsonwebtoken'
+import { generateToken } from "../../utils/jwt.js";
+import { envConfig } from "../../config/env.js";
 
 const credentialLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
@@ -30,9 +31,7 @@ const credentialLogin = async (payload: Partial<IUser>) => {
         email: isExistUser.email,
         role: isExistUser.role
     }
-    const accessToken = jwt.sign(jwtPayload, 'secret', {
-        expiresIn: '3d'
-    })
+    const accessToken = generateToken(jwtPayload, envConfig.JWT_ACCESS_SECRET, envConfig.JWT_ACCESS_EXPIRES_IN)
 
     return {
         accessToken
