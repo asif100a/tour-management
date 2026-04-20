@@ -4,6 +4,7 @@ import type { IAuthProvider, IUser } from "./user.interface.js";
 import { User } from "./user.model.js";
 import httpStatusCode from 'http-status-codes'
 import { envConfig } from "../../config/env.js";
+import type { JwtPayload } from "jsonwebtoken";
 
 const createUser = async (payload: Pick<IUser, 'name' | 'email' | 'password' | 'phone' | 'address'>) => {
     const { email, password, ...rest } = payload;
@@ -25,6 +26,10 @@ const createUser = async (payload: Pick<IUser, 'name' | 'email' | 'password' | '
     })
 
     return user;
+}
+
+const updateUser = async(userId: string, payload: Partial<IUser>, decodedToken: JwtPayload) => {
+    
 }
 
 const getAllUser = async() => {
