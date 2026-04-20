@@ -3,6 +3,7 @@ import AppError from "../../errorHandlers/AppError.js";
 import type { IAuthProvider, IUser } from "./user.interface.js";
 import { User } from "./user.model.js";
 import httpStatusCode from 'http-status-codes'
+import { envConfig } from "../../config/env.js";
 
 const createUser = async (payload: Pick<IUser, 'name' | 'email' | 'password' | 'phone' | 'address'>) => {
     const { email, password, ...rest } = payload;
@@ -12,7 +13,7 @@ const createUser = async (payload: Pick<IUser, 'name' | 'email' | 'password' | '
         throw new AppError(httpStatusCode.StatusCodes.CONFLICT, 'This user already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(password as string, 10)
+    const hashedPassword = await bcrypt.hash(password as string, Number(envConfig.BCRYPT_SALT))
 
     const authProvider: IAuthProvider = { provider: 'credentials', providerId: email }
 

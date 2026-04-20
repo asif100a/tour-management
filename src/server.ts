@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import 'colors'
 import app from './app.js';
 import { envConfig } from './app/config/env.js';
+import { seedSuperAdmin } from './app/utils/seedSuperAdmin.js';
 
 let server: Server;
 const port = envConfig.PORT;
@@ -22,7 +23,10 @@ const startServer = async () => {
     }
 }
 
-startServer()
+(async() => {
+    await startServer()
+    await seedSuperAdmin()
+})()
 
 
 // --------------Errors------------
