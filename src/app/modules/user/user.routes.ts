@@ -19,5 +19,6 @@ const validateRequest = (zodSchema: ZodType) => async (req: Request, res: Respon
 
 router.post('/register', validateRequest(createUserZodSchema), UserController.createUser);
 router.get('/all-user', checkAuth(Role.ADMIN, Role.SUPER_ADMIN), UserController.getAllUser);
+router.patch('/:id', checkAuth(...Object.values(Role)), UserController.updateUser)
 
 export const UserRoutes = router;
