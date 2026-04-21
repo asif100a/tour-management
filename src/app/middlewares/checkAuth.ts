@@ -15,7 +15,7 @@ export const checkAuth = (...authRoles: string[]) => async (req: Request, res: R
         if (!authRoles.includes(verifiedToken.role)) {
             throw new AppError(httpStatusCode.StatusCodes.FORBIDDEN, 'You are not authorized');
         }
-
+        req.user = verifiedToken;
         console.log("verifyToken -------------> ", verifiedToken)
         next()
     } catch (error) {
