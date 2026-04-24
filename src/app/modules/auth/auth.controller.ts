@@ -4,20 +4,13 @@ import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatusCode from 'http-status-codes'
 import { AuthServices } from "./auth.service.js";
 import AppError from "../../errorHandlers/AppError.js";
+import { setAuthCookie } from "../../utils/setCookie.js";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const credentialLogin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const loginInfo = await AuthServices.credentialLogin(req.body)
 
-    res.cookie('accessToken', loginInfo.accessToken, {
-        httpOnly: true,
-        secure: false
-    })
-
-    res.cookie('refreshToken', loginInfo.refreshToken, {
-        httpOnly: true,
-        secure: false
-    })
+    setAuthCookie(res, loginInfo)
 
     sendResponse(res, {
         success: true,
@@ -33,6 +26,8 @@ const getNewAccessToken = catchAsync(async (req: Request, res: Response, next: N
         throw new AppError(httpStatusCode.StatusCodes.BAD_REQUEST, "No refresh token received from cookies")
     }
     const tokenInfo = await AuthServices.getNewAccessToken(refreshToken)
+
+    setAuthCookie(res, tokenInfo)
 
     sendResponse(res, {
         success: true,
