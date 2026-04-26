@@ -49,7 +49,7 @@ const updateUser = async (userId: string, payload: Partial<IUser>, decodedToken:
     }
 
     if (payload.password) {
-        payload.password = await bcrypt.hash(payload.password, envConfig.BCRYPT_SALT)
+        payload.password = await bcrypt.hash(payload.password, Number(envConfig.BCRYPT_SALT))
     }
 
     // Update User info
