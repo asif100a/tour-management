@@ -7,6 +7,7 @@ import { sendResponse } from "../../utils/sendResponse.js";
 // import { envConfig } from "../../config/env.js";
 import type { JwtPayload } from "jsonwebtoken";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const user = await UserServices.createUser(req.body)
 
@@ -18,6 +19,7 @@ const createUser = catchAsync(async (req: Request, res: Response, next: NextFunc
     })
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const updateUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params?.id
     // const token = req.headers.authorization;

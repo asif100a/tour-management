@@ -7,11 +7,12 @@ import cookieParser from 'cookie-parser'
 import passport from 'passport'
 import expressSession from 'express-session'
 import './app/config/passport.js'
+import { envConfig } from './app/config/env.js'
 
 const app = express()
 
 app.use(expressSession({
-    secret: 'Your secret',
+    secret: envConfig.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }))
