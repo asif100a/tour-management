@@ -4,9 +4,19 @@ import { router } from './app/routes/index.js'
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler.js'
 import notFound from './app/middlewares/notFoundMiddleware.js'
 import cookieParser from 'cookie-parser'
+import passport from 'passport'
+import expressSession from 'express-session'
+import './app/config/passport.js'
 
 const app = express()
 
+app.use(expressSession({
+    secret: 'Your secret',
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(cookieParser())
 app.use(express.json())
 app.use(cors())
